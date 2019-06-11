@@ -16,10 +16,10 @@ def handle_text(bot, update):
     print('test')
     url = get_url()
     chat_id = update.message.chat_id
-    if update.message.text == "/start" or update.message.text == "hello":
-        bot.send_message(update.message.from_user.id, "Hello!Enter the list of products")
+    if update.message.text == "start" or update.message.text == "Привет":
+        bot.send_message(update.message.from_user.id, "Привет, введи список продуктов")
     else:
-        bot.send_message(update.message.from_user.id, "I don't understand you, please, write 'hello'")
+        bot.send_message(update.message.from_user.id, "Я не понимаю тебя, напиши "Привет"")
     ingredients_from_list = update.message.text.split(',')
     list_of_products = []
     for element in recipes.values():
