@@ -3,30 +3,48 @@ from telegram.ext import Updater, InlineQueryHandler, CommandHandler
 
 import requests
 import re
+from project08 import *
+
 REQUEST_KWARGS={
-    'proxy_url': 'https://36.67.248.203:3128/'
+    'proxy_url' : 'https://185.132.133.212:8080'
 }
 
+recipes = read_file((r'C:\Users\Анастасия\Desktop\прога\cooking_bot\receipts2.txt')
+print(len(recipes))
 
-def get_url():
-    contents = requests.get('https://random.dog/woof.json').json()
-    url = contents['url']
-    return url
-
-def bop(bot, update):
+def handle_text(bot, update):
     print('test')
     url = get_url()
     chat_id = update.message.chat_id
-    bot.send_message(chat_id=update.message.chat_id, text='fuck you!')
-    bot.send_photo(chat_id=chat_id, photo=url)
-    #result = bop(bot, update)
+    if update.message.text == "/start" or update.message.text == "hello":
+        bot.send_message(update.message.from_user.id, "Hello!Enter the list of products")
+    else:
+        bot.send_message(update.message.from_user.id, "I don't understand you, please, write 'hello'")
+    ingredients_from_list = update.message.text.split(',')
+    list_of_products = []
+    for element in recipes.values():
+        found = True
+        for product in ingredients_from_list:
+            if product not in element[0]:
+                found = False
+                break
+        if found:
+            list_of_products.append(element[1])
+        print(element[0], found)
+        break
+
+
+  #("No recipes found. Try adding or excluding some ingredients. I will try to help you")
+    
+    #result = handle_text(bot, update)
 
 def main():
     updater = Updater(
         '762284125:AAE_wRj0y9XMNPaZ53ExUO3oKX5Ekm97riw',
         request_kwargs=REQUEST_KWARGS)
     dp = updater.dispatcher
-    dp.add_handler(CommandHandler('bop',bop))
+    text_handler = MessageHandler(Filters.text, handle_text)
+    dp.add_handler(text_handler)
     updater.start_polling()
     updater.idle()
 
