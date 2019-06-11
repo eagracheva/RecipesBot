@@ -10,7 +10,7 @@ def read_file(file_name):
             ingreds = splitted_line[3]
             recept = splitted_line[-2].replace('\\n','\n').strip()
             dict_ing = dict()
-            splitted_ingerds = ingreds.split(' - ')
+            splitted_ingerds = [s.strip() for s in ingreds.split(' - ')]
 
             for i in range(0, len(splitted_ingerds), 2):
                 if i >= len(splitted_ingerds) -1:
