@@ -7,6 +7,7 @@ REQUEST_KWARGS={
     'proxy_url': 'https://36.67.248.203:3128/'
 }
 
+
 def get_url():
     contents = requests.get('https://random.dog/woof.json').json()
     url = contents['url']
