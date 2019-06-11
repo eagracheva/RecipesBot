@@ -1,5 +1,5 @@
 import telegram, config
-from telegram.ext import Updater, InlineQueryHandler, CommandHandler
+from telegram.ext import Updater, InlineQueryHandler, CommandHandler,MessageHandler,Filters
 
 import requests
 import re
@@ -9,7 +9,7 @@ REQUEST_KWARGS={
     'proxy_url' : 'https://185.132.133.212:8080'
 }
 
-recipes = read_file((r'C:\Users\Анастасия\Desktop\прога\cooking_bot\receipts2.txt')
+recipes = read_file(r'C:\Users\Анастасия\Desktop\прога\cooking_bot\receipts2.txt')
 print(len(recipes))
 
 def handle_text(bot, update):
@@ -19,7 +19,7 @@ def handle_text(bot, update):
     if update.message.text == "start" or update.message.text == "Привет":
         bot.send_message(update.message.from_user.id, "Привет, введи список продуктов")
     else:
-        bot.send_message(update.message.from_user.id, "Я не понимаю тебя, напиши "Привет"")
+        bot.send_message(update.message.from_user.id, "Я не понимаю тебя, напиши 'Привет'")
     ingredients_from_list = update.message.text.split(',')
     list_of_products = []
     for element in recipes.values():
