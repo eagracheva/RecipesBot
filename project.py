@@ -59,8 +59,15 @@ def handle_text(bot, update):
             while i < len(list_of_products) and i < 5:
                 bot.send_message(update.message.from_user.id, str(list_of_products[i]))
                 i += 1
+        elif state == 'wait_for_spasibo':
+            if update.message.text == "Спасибо":
+                state = 'init'
+            else:
+                i = 0
+                while i < len(list_of_products) and i < 5:
+                    bot.send_message(update.message.from_user.id, str(list_of_products[i]))
+                    i += 1
         else:
-            
             print('ELSE')
     except Exception as e:
         print('Error!!!! What: '+str(e))
