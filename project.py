@@ -27,6 +27,8 @@ def handle_text(bot, update):
         #chat_id = update.message.chat_id
         if state == 'init':
             print('In init state')
+            message = update.message.text.lower()
+            print(message)
             if update.message.text == "start" or update.message.text == "Привет":
                 bot.send_message(update.message.from_user.id, "Привет! Введи список продуктов")
                 state = 'wait_products'
@@ -34,8 +36,11 @@ def handle_text(bot, update):
                 bot.send_message(update.message.from_user.id, "Я не понимаю тебя, напиши 'Привет'")
         elif state == 'wait_products':
             print('in wait state')
+
+        
     
-            ingredients_from_list = update.message.text.split(',')
+            message_text = update.message.text.lower()
+            ingredients_from_list = message_text.split(', ')
             list_of_products = []
             for k,v in recipes.items():
                 found = True
@@ -50,10 +55,14 @@ def handle_text(bot, update):
             if len(list_of_products) == 0:
                 bot.send_message(update.message.from_user.id,'Рецептов не найдено! Попробуйте исключить некоторые ингредиенты')
                 print('Not found for list: %s' % str(ingredients_from_list))
-                
+            i = 0
+            while i < len(list_of_products) and i < 5:
+                bot.send_message(update.message.from_user.id, str(list_of_products[i]))
+                i += 1
         else:
+            
             print('ELSE')
-    except Error as e:
+    except Exception as e:
         print('Error!!!! What: '+str(e))
         return
         
