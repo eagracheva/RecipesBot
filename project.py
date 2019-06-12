@@ -16,6 +16,7 @@ REQUEST_KWARGS={
 recipes = read_file(r'C:\Users\Анастасия\Desktop\прога\RecipesBot\receipts2.txt')
 print(len(recipes))
 state = 'init'
+number = {}
 
 
 def handle_text(bot, update):
@@ -30,11 +31,19 @@ def handle_text(bot, update):
             message = update.message.text.lower()
             print(message)
             if update.message.text == "start" or update.message.text == "Привет":
-                bot.send_message(update.message.from_user.id, "Привет! Введи список продуктов")
-                state = 'wait_products'
+                bot.send_message(update.message.from_user.id, "Привет! Введи количество желаемых рецептов")
+                state = 'wait number'
             else:
                 bot.send_message(update.message.from_user.id, "Я не понимаю тебя, напиши 'Привет'")
-        elif state == 'wait_products':
+        elif state == 'wait number':
+            try:
+                number[update.message.from_user.id] = int(update.message.text)
+                bot.send_message(update.message.from_user.id, "Введи список продуктов")
+                state = 'wait products'
+            except Exception as e:
+                bot.send_message(update.message.from_user.id, "Пожалуйста, напишите число.")
+            
+        elif state == 'wait products':
             print('in wait state')
 
         
@@ -51,22 +60,23 @@ def handle_text(bot, update):
                         break
                 if found:
                     list_of_products.append((k,v[1]))
-                    print(v[0], found)
+                   
             if len(list_of_products) == 0:
                 bot.send_message(update.message.from_user.id,'Рецептов не найдено! Попробуйте исключить некоторые ингредиенты')
                 print('Not found for list: %s' % str(ingredients_from_list))
             i = 0
-            while i < len(list_of_products) and i < 5:
-                bot.send_message(update.message.from_user.id, str(list_of_products[i]))
+            while i < len(list_of_products) and i < number[update.message.from_user.id]:
+                bot.send_message(update.message.from_user.id, list_of_products[i][0] + '. ' + list_of_products[i][1])
                 i += 1
-        elif state == 'wait_for_spasibo':
-            if update.message.text == "Спасибо":
-                state = 'init'
+        
+            bot.send_message(update.message.from_user.id, 'Если хотите продолжить, то напишите "Еще"')
+            state = 'choose option'
+        elif state == 'choose option':
+            if update.message.text == 'Еще':
+                state = 'wait number'
+                bot.send_message(update.message.from_user.id, "Введи количество желаемых рецептов")
             else:
-                i = 0
-                while i < len(list_of_products) and i < 5:
-                    bot.send_message(update.message.from_user.id, str(list_of_products[i]))
-                    i += 1
+                state = 'init'
         else:
             print('ELSE')
     except Exception as e:

@@ -8,7 +8,7 @@ def read_file(file_name):
                 continue
             name = splitted_line[1]
             ingreds = splitted_line[3]
-            recept = splitted_line[-2].replace('\\n','\n','<p>', '<p><p>').strip()
+            recept = splitted_line[-2].replace('\\n','\n').strip()
             dict_ing = dict()
             splitted_ingerds = [s.strip() for s in ingreds.split(' - ')]
 
