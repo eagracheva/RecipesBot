@@ -1,6 +1,6 @@
 import telegram, config
 from telegram.ext import Updater, InlineQueryHandler, CommandHandler,MessageHandler,Filters
-from functions import init, wait_products
+from functions import init, wait_products, wait_number, choose_option
 
 import requests
 import re
@@ -17,6 +17,7 @@ REQUEST_KWARGS={
 recipes = read_file(r'C:\Users\Анастасия\Desktop\прога\RecipesBot\receipts2.txt')
 print(len(recipes))
 state = 'init'
+number = {}
 
 
 def handle_text(bot, update):
@@ -30,9 +31,10 @@ def handle_text(bot, update):
             init()
         elif state == 'wait_products':
             wait_products()
-
-        else:
-            print('ELSE')
+        elif state == 'wait number':
+            wait_number()
+        elif state == 'choose option':
+            
     except Exception as e:
         print('Error!!!! What: '+str(e))
         return
