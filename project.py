@@ -34,11 +34,11 @@ def handle_text(bot, update):
                 bot.send_message(update.message.from_user.id, "Привет! Введи количество желаемых рецептов")
                 state = 'wait number'
             else:
-                bot.send_message(update.message.from_user.id, "Я не понимаю тебя, напиши 'Привет'")
+                bot.send_message(update.message.from_user.id, "Я не понимаю Вас, напишите 'Привет'")
         elif state == 'wait number':
             try:
                 number[update.message.from_user.id] = int(update.message.text)
-                bot.send_message(update.message.from_user.id, "Введи список продуктов")
+                bot.send_message(update.message.from_user.id, "Введите список продуктов")
                 state = 'wait products'
             except Exception as e:
                 bot.send_message(update.message.from_user.id, "Пожалуйста, напишите число.")
@@ -74,7 +74,7 @@ def handle_text(bot, update):
         elif state == 'choose option':
             if update.message.text == 'Еще':
                 state = 'wait number'
-                bot.send_message(update.message.from_user.id, "Введи количество желаемых рецептов")
+                bot.send_message(update.message.from_user.id, "Введите количество желаемых рецептов")
             else:
                 state = 'init'
         else:
