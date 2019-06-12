@@ -28,13 +28,13 @@ def handle_text(bot, update):
         print('HEY')
         #chat_id = update.message.chat_id
         if state == 'init':
-            init()
+            init(bot, update)
         elif state == 'wait_products':
-            wait_products()
+            wait_products(bot, update)
         elif state == 'wait number':
-            wait_number()
+            wait_number(bot, update)
         elif state == 'choose option':
-            
+            choose_option(bot, update)
     except Exception as e:
         print('Error!!!! What: '+str(e))
         return

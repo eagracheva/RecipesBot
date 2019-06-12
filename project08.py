@@ -1,3 +1,4 @@
+import re
 def read_file(file_name):
     with open(file_name, 'r',encoding="utf-8") as file:
         lines = file.readlines()
@@ -8,7 +9,8 @@ def read_file(file_name):
                 continue
             name = splitted_line[1]
             ingreds = splitted_line[3]
-            recept = splitted_line[-2].replace('\\n','\n', '<p>').strip()
+            recept = splitted_line[-2].replace('\\n','\n').strip()
+            recept = re.sub('<.*>','',recept)
             dict_ing = dict()
             splitted_ingerds = [s.strip() for s in ingreds.split(' - ')]
 

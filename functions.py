@@ -1,13 +1,20 @@
-def init():
+import telegram, config
+from telegram.ext import Updater, InlineQueryHandler, CommandHandler,MessageHandler,Filters
+
+
+import requests
+import re
+from project08 import *
+def init(bot, update):
     if update.message.text == "start" or update.message.text == "Привет":
-                bot.send_message(update.message.from_user.id, "Привет! Введи список продуктов")
-                state = 'wait_products'
-            else:
-                bot.send_message(update.message.from_user.id, "Я не понимаю тебя, напиши 'Привет'")
+        bot.send_message(update.message.from_user.id, "Привет! Введи количество рецептов")
+        state = 'wait number'
+    else:
+        bot.send_message(update.message.from_user.id, "Я не понимаю тебя, напиши 'Привет'")
     pass
 
 
-def wait_products():
+def wait_products(bot, update):
     message_text = update.message.text.lower()
     ingredients_from_list = message_text.split(', ')
     list_of_products = []
@@ -32,7 +39,7 @@ def wait_products():
     pass
 
 
-def wait_number():
+def wait_number(bot, update):
     try:
         number[update.message.from_user.id] = int(update.message.text)
         bot.send_message(update.message.from_user.id, "Введите список продуктов")
@@ -42,7 +49,7 @@ def wait_number():
     pass
 
 
-def choose_option():
+def choose_option(bot, update):
     if update.message.text == 'Еще':
         state = 'wait number'
         bot.send_message(update.message.from_user.id, "Введите количество желаемых рецептов")
