@@ -27,6 +27,8 @@ def handle_text(bot, update):
         #chat_id = update.message.chat_id
         if state == 'init':
             print('In init state')
+            message = update.message.text.lower()
+            print(message)
             if update.message.text == "start" or update.message.text == "Привет":
                 bot.send_message(update.message.from_user.id, "Привет, введи список продуктов")
                 state = 'wait_products'
@@ -34,8 +36,11 @@ def handle_text(bot, update):
                 bot.send_message(update.message.from_user.id, "Я не понимаю тебя, напиши 'Привет'")
         elif state == 'wait_products':
             print('int wait state')
+            
+            
     
-            ingredients_from_list = update.message.text.split(',')
+            message_text = update.message.text.lower()
+            ingredients_from_list = message_text.split(', ')
             list_of_products = []
             for k,v in recipes.items():
                 found = True
@@ -53,8 +58,9 @@ def handle_text(bot, update):
             for element in list_of_products:
                 bot.send_message(update.message.from_user.id, str(element))
         else:
+            
             print('ELSE')
-    except Error as e:
+    except Exception as e:
         print('Error!!!! What: '+str(e))
         return
         
