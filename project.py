@@ -55,8 +55,10 @@ def handle_text(bot, update):
             if len(list_of_products) == 0:
                 bot.send_message(update.message.from_user.id,'No receipts found!')
                 print('Not found for list: %s' % str(ingredients_from_list))
-            for element in list_of_products:
-                bot.send_message(update.message.from_user.id, str(element))
+            i = 0
+            while i < len(list_of_products) and i < 5:
+                bot.send_message(update.message.from_user.id, str(list_of_products[i]))
+                i += 1
         else:
             
             print('ELSE')
