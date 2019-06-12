@@ -28,12 +28,12 @@ def handle_text(bot, update):
         if state == 'init':
             print('In init state')
             if update.message.text == "start" or update.message.text == "Привет":
-                bot.send_message(update.message.from_user.id, "Привет, введи список продуктов")
+                bot.send_message(update.message.from_user.id, "Привет! Введи список продуктов")
                 state = 'wait_products'
             else:
                 bot.send_message(update.message.from_user.id, "Я не понимаю тебя, напиши 'Привет'")
         elif state == 'wait_products':
-            print('int wait state')
+            print('in wait state')
     
             ingredients_from_list = update.message.text.split(',')
             list_of_products = []
@@ -48,10 +48,9 @@ def handle_text(bot, update):
                     list_of_products.append((k,v[1]))
                     print(v[0], found)
             if len(list_of_products) == 0:
-                bot.send_message(update.message.from_user.id,'No receipts found!')
+                bot.send_message(update.message.from_user.id,'Рецептов не найдено! Попробуйте исключить некоторые ингредиенты')
                 print('Not found for list: %s' % str(ingredients_from_list))
-            for element in list_of_products:
-                bot.send_message(update.message.from_user.id, str(element))
+                
         else:
             print('ELSE')
     except Error as e:
