@@ -14,10 +14,9 @@ REQUEST_KWARGS={
     'proxy_url' : 'https://%s:%s' % (PROXY_ADDR,PROXY_PORT)
 }
 
-recipes = read_file(r'C:\Users\Анастасия\Desktop\прога\RecipesBot\receipts2.txt')
-print(len(recipes))
+
 state = 'init'
-number = {}
+
 
 
 def handle_text(bot, update):
@@ -28,13 +27,13 @@ def handle_text(bot, update):
         print('HEY')
         #chat_id = update.message.chat_id
         if state == 'init':
-            init(bot, update)
-        elif state == 'wait_products':
-            wait_products(bot, update)
+            state = init(bot, update)
+        elif state == 'wait products':
+            state = wait_products(bot, update)
         elif state == 'wait number':
-            wait_number(bot, update)
+            state = wait_number(bot, update)
         elif state == 'choose option':
-            choose_option(bot, update)
+            state = choose_option(bot, update)
     except Exception as e:
         print('Error!!!! What: '+str(e))
         return
