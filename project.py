@@ -1,5 +1,6 @@
 import telegram, config
 from telegram.ext import Updater, InlineQueryHandler, CommandHandler,MessageHandler,Filters
+from functions import init, wait_products
 
 import requests
 import re
@@ -26,47 +27,10 @@ def handle_text(bot, update):
         print('HEY')
         #chat_id = update.message.chat_id
         if state == 'init':
-            print('In init state')
-            message = update.message.text.lower()
-            print(message)
-            if update.message.text == "start" or update.message.text == "Привет":
-                bot.send_message(update.message.from_user.id, "Привет! Введи список продуктов")
-                state = 'wait_products'
-            else:
-                bot.send_message(update.message.from_user.id, "Я не понимаю тебя, напиши 'Привет'")
+            init()
         elif state == 'wait_products':
-            print('in wait state')
+            wait_products()
 
-        
-    
-            message_text = update.message.text.lower()
-            ingredients_from_list = message_text.split(', ')
-            list_of_products = []
-            for k,v in recipes.items():
-                found = True
-                for product in ingredients_from_list:
-                    #print(product,v[0])
-                    if product not in v[0]:
-                        found = False
-                        break
-                if found:
-                    list_of_products.append((k,v[1]))
-                    print(v[0], found)
-            if len(list_of_products) == 0:
-                bot.send_message(update.message.from_user.id,'Рецептов не найдено! Попробуйте исключить некоторые ингредиенты')
-                print('Not found for list: %s' % str(ingredients_from_list))
-            i = 0
-            while i < len(list_of_products) and i < 5:
-                bot.send_message(update.message.from_user.id, str(list_of_products[i]))
-                i += 1
-        elif state == 'wait_for_spasibo':
-            if update.message.text == "Спасибо":
-                state = 'init'
-            else:
-                i = 0
-                while i < len(list_of_products) and i < 5:
-                    bot.send_message(update.message.from_user.id, str(list_of_products[i]))
-                    i += 1
         else:
             print('ELSE')
     except Exception as e:
@@ -74,8 +38,6 @@ def handle_text(bot, update):
         return
         
         
-
-
   #("No recipes found. Try adding or excluding some ingredients. I will try to help you")
     
     #result = handle_text(bot, update)
