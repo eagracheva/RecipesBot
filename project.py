@@ -5,14 +5,11 @@ from functions import init, wait_products, wait_number, choose_option
 import requests
 import re
 from project08 import *
-
-PROXY_ADDR = '191.242.230.135'
+PROXY_ADDR = '46.167.206.116'
 PROXY_PORT = '8080'
 
-REQUEST_KWARGS={
-    #'proxy_url' : 'https://185.132.133.212:8080'
-    'proxy_url' : 'https://%s:%s' % (PROXY_ADDR,PROXY_PORT)
-}
+
+
 
 
 state = 'init'
@@ -37,6 +34,7 @@ def handle_text(bot, update):
     except Exception as e:
         print('Error!!!! What: '+str(e))
         return
+    
         
         
   #("No recipes found. Try adding or excluding some ingredients. I will try to help you")
@@ -45,8 +43,7 @@ def handle_text(bot, update):
 
 def main():
     updater = Updater(
-        '762284125:AAE_wRj0y9XMNPaZ53ExUO3oKX5Ekm97riw',
-        request_kwargs=REQUEST_KWARGS)
+        '762284125:AAE_wRj0y9XMNPaZ53ExUO3oKX5Ekm97riw')
     dp = updater.dispatcher
     text_handler = MessageHandler(Filters.text, handle_text)
     dp.add_handler(text_handler)

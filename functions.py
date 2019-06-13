@@ -37,7 +37,7 @@ def wait_products(bot, update):
         bot.send_message(update.message.from_user.id,'Рецептов не найдено! Попробуйте исключить некоторые ингредиенты')
         print('Not found for list: %s' % str(ingredients_from_list))
     i = 0
-    while i < len(list_of_products) and i < 5:
+    while i < len(list_of_products) and i < number[update.message.from_user.id]:
         bot.send_message(update.message.from_user.id, list_of_products[i][0] + '. ' + list_of_products[i][1])
         i += 1
     bot.send_message(update.message.from_user.id, 'Если хотите продолжить, то напишите "Еще"')
@@ -50,10 +50,10 @@ def wait_number(bot, update):
         number[update.message.from_user.id] = int(update.message.text)
         bot.send_message(update.message.from_user.id, "Введите список продуктов")
         state = 'wait products'
-        return state
     except Exception as e:
         bot.send_message(update.message.from_user.id, "Пожалуйста, напишите число.")
-    pass
+        state = 'wait number'
+    return state
 
 
 def choose_option(bot, update):
